@@ -1,0 +1,192 @@
+
+===============================================================================================================
+===============================================================================================================
+
+=== Test Case: test1.txt ===
+
+Control Flow Graph:
+Basic Block 1: [(1, 'i = n')]
+  Successors: ['Basic Block 2']
+Basic Block 2: [(2, 'if i < 2 then goto (32)')]
+  Successors: ['Basic Block 11', 'Basic Block 3']
+Basic Block 3: [(3, 'jmax = 1'), (4, 'j = 2')]
+  Successors: ['Basic Block 4']
+Basic Block 4: [(5, 'if j > 1 then goto (16)')]
+  Successors: ['Basic Block 8', 'Basic Block 5']
+Basic Block 5: [(6, 'T1 = j - 1'), (7, 'T2 = T1 * 4'), (8, 'T3 = x[T2]'), (9, 'T4 = jmax - 1'), (10, 'T5 = T4 * 4'), (11, 'T6 = x[T5]'), (12, 'if T3 <= T6 then goto (14)')]
+  Successors: ['Basic Block 7', 'Basic Block 6']
+Basic Block 6: [(13, 'jmax = j')]
+  Successors: ['Basic Block 7']
+Basic Block 7: [(14, 'j = j + 1'), (15, 'goto (5)')]
+  Successors: ['Basic Block 4']
+Basic Block 8: [(16, 'if jmax = i then goto (30)')]
+  Successors: ['Basic Block 10', 'Basic Block 9']
+Basic Block 9: [(17, 'T7 = i - 1'), (18, 'T8 = T7 * 4'), (19, 'T9 = x[T8]'), (20, 'temp = T9'), (21, 'T10 = jmax - 1'), (22, 'T11 = T10 * 4'), (23, 'T12 = x[T11]'), (24, 'T13 = i - 1'), (25, 'T14 = T13 * 4'), (26, 'x[T14] = T12'), (27, 'T15 = jmax - 1'), (28, 'T16 = T15 * 4'), (29, 'x[T16] = temp')]
+  Successors: ['Basic Block 10']
+Basic Block 10: [(30, 'i = i - 1'), (31, 'goto (2)')]
+  Successors: ['Basic Block 2']
+Basic Block 11: [(32, 'return')]
+  Successors: []
+
+Definitions:
+d1: i at line 1 (i = n)
+d2: jmax at line 3 (jmax = 1)
+d3: j at line 4 (j = 2)
+d4: T1 at line 6 (T1 = j - 1)
+d5: T2 at line 7 (T2 = T1 * 4)
+d6: T3 at line 8 (T3 = x[T2])
+d7: T4 at line 9 (T4 = jmax - 1)
+d8: T5 at line 10 (T5 = T4 * 4)
+d9: T6 at line 11 (T6 = x[T5])
+d10: jmax at line 13 (jmax = j)
+d11: j at line 14 (j = j + 1)
+d12: T7 at line 17 (T7 = i - 1)
+d13: T8 at line 18 (T8 = T7 * 4)
+d14: T9 at line 19 (T9 = x[T8])
+d15: temp at line 20 (temp = T9)
+d16: T10 at line 21 (T10 = jmax - 1)
+d17: T11 at line 22 (T11 = T10 * 4)
+d18: T12 at line 23 (T12 = x[T11])
+d19: T13 at line 24 (T13 = i - 1)
+d20: T14 at line 25 (T14 = T13 * 4)
+d21: x[T14] at line 26 (x[T14] = T12)
+d22: T15 at line 27 (T15 = jmax - 1)
+d23: T16 at line 28 (T16 = T15 * 4)
+d24: x[T16] at line 29 (x[T16] = temp)
+d25: i at line 30 (i = i - 1)
+
+Forward Flow Analysis:
+
+Iteration 1:
+Basic Block 1: IN = {}, OUT = {d1}
+Basic Block 2: IN = {d1, d25}, OUT = {d1, d25}
+Basic Block 3: IN = {d1, d25}, OUT = {d1, d2, d25, d3}
+Basic Block 4: IN = {d1, d11, d2, d25, d3}, OUT = {d1, d11, d2, d25, d3}
+Basic Block 5: IN = {d1, d11, d2, d25, d3}, OUT = {d1, d11, d2, d25, d3, d4, d5, d6, d7, d8, d9}
+Basic Block 6: IN = {d1, d11, d2, d25, d3, d4, d5, d6, d7, d8, d9}, OUT = {d1, d10, d11, d25, d3, d4, d5, d6, d7, d8, d9}
+Basic Block 7: IN = {d1, d10, d11, d2, d25, d3, d4, d5, d6, d7, d8, d9}, OUT = {d1, d10, d11, d2, d25, d4, d5, d6, d7, d8, d9}
+Basic Block 8: IN = {d1, d11, d2, d25, d3}, OUT = {d1, d11, d2, d25, d3}
+Basic Block 9: IN = {d1, d11, d2, d25, d3}, OUT = {d1, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3}
+Basic Block 10: IN = {d1, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3}, OUT = {d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3}
+Basic Block 11: IN = {d1, d25}, OUT = {d1, d25}
+
+Iteration 2:
+Basic Block 1: IN = {}, OUT = {d1}
+Basic Block 2: IN = {d1, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3}, OUT = {d1, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3}
+Basic Block 3: IN = {d1, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3}, OUT = {d1, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3}
+Basic Block 4: IN = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}, OUT = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}
+Basic Block 5: IN = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}, OUT = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}
+Basic Block 6: IN = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}, OUT = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}
+Basic Block 7: IN = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}, OUT = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d4, d5, d6, d7, d8, d9}
+Basic Block 8: IN = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}, OUT = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}
+Basic Block 9: IN = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}, OUT = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}
+Basic Block 10: IN = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}, OUT = {d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}
+Basic Block 11: IN = {d1, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3}, OUT = {d1, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3}
+
+Iteration 3:
+Basic Block 1: IN = {}, OUT = {d1}
+Basic Block 2: IN = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}, OUT = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}
+Basic Block 3: IN = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}, OUT = {d1, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}
+Basic Block 4: IN = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}, OUT = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}
+Basic Block 5: IN = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}, OUT = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}
+Basic Block 6: IN = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}, OUT = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}
+Basic Block 7: IN = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}, OUT = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d4, d5, d6, d7, d8, d9}
+Basic Block 8: IN = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}, OUT = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}
+Basic Block 9: IN = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}, OUT = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}
+Basic Block 10: IN = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}, OUT = {d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}
+Basic Block 11: IN = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}, OUT = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}
+
+Iteration 4:
+Basic Block 1: IN = {}, OUT = {d1}
+Basic Block 2: IN = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}, OUT = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}
+Basic Block 3: IN = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}, OUT = {d1, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}
+Basic Block 4: IN = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}, OUT = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}
+Basic Block 5: IN = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}, OUT = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}
+Basic Block 6: IN = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}, OUT = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}
+Basic Block 7: IN = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}, OUT = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d4, d5, d6, d7, d8, d9}
+Basic Block 8: IN = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}, OUT = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}
+Basic Block 9: IN = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}, OUT = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}
+Basic Block 10: IN = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}, OUT = {d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}
+Basic Block 11: IN = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}, OUT = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d2, d20, d21, d22, d23, d24, d25, d3, d4, d5, d6, d7, d8, d9}
+Convergence reached after 4 iterations.
+
+Backward Flow Analysis:
+
+Iteration 1:
+Basic Block 1: IN = {n}, OUT = {i}
+Basic Block 2: IN = {i}, OUT = {}
+Basic Block 3: IN = {}, OUT = {j}
+Basic Block 4: IN = {T1, T2, T3, T4, T5, T6, goto, i, j, jmax, then}, OUT = {T1, T2, T3, T4, T5, T6, goto, i, j, jmax, then}
+Basic Block 5: IN = {T1, T2, T3, T4, T5, T6, goto, j, jmax, then}, OUT = {j}
+Basic Block 6: IN = {j}, OUT = {}
+Basic Block 7: IN = {T1, T2, T3, T4, T5, T6, goto, i, jmax, then}, OUT = {T1, T2, T3, T4, T5, T6, goto, i, j, jmax, then}
+Basic Block 8: IN = {T10, T11, T12, T13, T15, T7, T8, T9, goto, i, jmax, temp, then}, OUT = {T10, T11, T12, T13, T15, T7, T8, T9, i, jmax, temp}
+Basic Block 9: IN = {T10, T11, T12, T13, T15, T7, T8, T9, i, jmax, temp}, OUT = {}
+Basic Block 10: IN = {}, OUT = {i}
+Basic Block 11: IN = {}, OUT = {}
+
+Iteration 2:
+Basic Block 1: IN = {n}, OUT = {i}
+Basic Block 2: IN = {i}, OUT = {}
+Basic Block 3: IN = {T1, T2, T3, T4, T5, T6, goto, i, then}, OUT = {T1, T2, T3, T4, T5, T6, goto, i, j, jmax, then}
+Basic Block 4: IN = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, j, jmax, temp, then}, OUT = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, j, jmax, temp, then}
+Basic Block 5: IN = {T1, T2, T3, T4, T5, T6, goto, i, j, jmax, then}, OUT = {T1, T2, T3, T4, T5, T6, goto, i, j, jmax, then}
+Basic Block 6: IN = {T1, T2, T3, T4, T5, T6, goto, i, j, then}, OUT = {T1, T2, T3, T4, T5, T6, goto, i, jmax, then}
+Basic Block 7: IN = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, jmax, temp, then}, OUT = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, j, jmax, temp, then}
+Basic Block 8: IN = {T10, T11, T12, T13, T15, T7, T8, T9, goto, i, jmax, temp, then}, OUT = {T10, T11, T12, T13, T15, T7, T8, T9, i, jmax, temp}
+Basic Block 9: IN = {T10, T11, T12, T13, T15, T7, T8, T9, i, jmax, temp}, OUT = {}
+Basic Block 10: IN = {}, OUT = {i}
+Basic Block 11: IN = {}, OUT = {}
+
+Iteration 3:
+Basic Block 1: IN = {n}, OUT = {i}
+Basic Block 2: IN = {T1, T2, T3, T4, T5, T6, goto, i, then}, OUT = {T1, T2, T3, T4, T5, T6, goto, i, then}
+Basic Block 3: IN = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, temp, then}, OUT = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, j, jmax, temp, then}
+Basic Block 4: IN = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, j, jmax, temp, then}, OUT = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, j, jmax, temp, then}
+Basic Block 5: IN = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, j, jmax, temp, then}, OUT = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, j, jmax, temp, then}
+Basic Block 6: IN = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, j, temp, then}, OUT = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, jmax, temp, then}
+Basic Block 7: IN = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, jmax, temp, then}, OUT = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, j, jmax, temp, then}
+Basic Block 8: IN = {T10, T11, T12, T13, T15, T7, T8, T9, goto, i, jmax, temp, then}, OUT = {T10, T11, T12, T13, T15, T7, T8, T9, i, jmax, temp}
+Basic Block 9: IN = {T10, T11, T12, T13, T15, T7, T8, T9, i, jmax, temp}, OUT = {}
+Basic Block 10: IN = {T1, T2, T3, T4, T5, T6, goto, then}, OUT = {T1, T2, T3, T4, T5, T6, goto, i, then}
+Basic Block 11: IN = {}, OUT = {}
+
+Iteration 4:
+Basic Block 1: IN = {T1, T2, T3, T4, T5, T6, goto, n, then}, OUT = {T1, T2, T3, T4, T5, T6, goto, i, then}
+Basic Block 2: IN = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, temp, then}, OUT = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, temp, then}
+Basic Block 3: IN = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, temp, then}, OUT = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, j, jmax, temp, then}
+Basic Block 4: IN = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, j, jmax, temp, then}, OUT = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, j, jmax, temp, then}
+Basic Block 5: IN = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, j, jmax, temp, then}, OUT = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, j, jmax, temp, then}
+Basic Block 6: IN = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, j, temp, then}, OUT = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, jmax, temp, then}
+Basic Block 7: IN = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, jmax, temp, then}, OUT = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, j, jmax, temp, then}
+Basic Block 8: IN = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, jmax, temp, then}, OUT = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, jmax, temp, then}
+Basic Block 9: IN = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, jmax, temp, then}, OUT = {T1, T2, T3, T4, T5, T6, goto, then}
+Basic Block 10: IN = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, temp, then}, OUT = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, temp, then}
+Basic Block 11: IN = {}, OUT = {}
+
+Iteration 5:
+Basic Block 1: IN = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, n, temp, then}, OUT = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, temp, then}
+Basic Block 2: IN = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, temp, then}, OUT = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, temp, then}
+Basic Block 3: IN = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, temp, then}, OUT = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, j, jmax, temp, then}
+Basic Block 4: IN = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, j, jmax, temp, then}, OUT = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, j, jmax, temp, then}
+Basic Block 5: IN = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, j, jmax, temp, then}, OUT = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, j, jmax, temp, then}
+Basic Block 6: IN = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, j, temp, then}, OUT = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, jmax, temp, then}
+Basic Block 7: IN = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, jmax, temp, then}, OUT = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, j, jmax, temp, then}
+Basic Block 8: IN = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, jmax, temp, then}, OUT = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, jmax, temp, then}
+Basic Block 9: IN = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, jmax, temp, then}, OUT = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, temp, then}
+Basic Block 10: IN = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, temp, then}, OUT = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, temp, then}
+Basic Block 11: IN = {}, OUT = {}
+
+Iteration 6:
+Basic Block 1: IN = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, n, temp, then}, OUT = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, temp, then}
+Basic Block 2: IN = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, temp, then}, OUT = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, temp, then}
+Basic Block 3: IN = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, temp, then}, OUT = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, j, jmax, temp, then}
+Basic Block 4: IN = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, j, jmax, temp, then}, OUT = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, j, jmax, temp, then}
+Basic Block 5: IN = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, j, jmax, temp, then}, OUT = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, j, jmax, temp, then}
+Basic Block 6: IN = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, j, temp, then}, OUT = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, jmax, temp, then}
+Basic Block 7: IN = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, jmax, temp, then}, OUT = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, j, jmax, temp, then}
+Basic Block 8: IN = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, jmax, temp, then}, OUT = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, jmax, temp, then}
+Basic Block 9: IN = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, jmax, temp, then}, OUT = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, temp, then}
+Basic Block 10: IN = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, temp, then}, OUT = {T1, T10, T11, T12, T13, T15, T2, T3, T4, T5, T6, T7, T8, T9, goto, i, temp, then}
+Basic Block 11: IN = {}, OUT = {}
+Convergence reached after 6 iterations.

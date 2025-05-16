@@ -1,0 +1,38 @@
+(1) i = m - 1               // Leader 1: First statement
+(2) j = n
+(3) T1 = 4 * n
+(4) v = a[T1]
+(5) i = i + 1               // Leader 2: Target of jump statement line 8 
+(6) T2 = 4 * i
+(7) T3 = a[T2]
+(8) if T3 < v goto (5)
+(9) j = j - 1               // Leader 3: Target of jump statement line 12 
+(10) T4 = 4 * j
+(11) T5 = a[T4]
+(12) if T5 > v goto (9)
+(13) if i >= j goto (23)    // Leader 6: Following jump
+(14) T6 = 4 * i             // Leader 5: Following jump 
+(15) x = a[T6]
+(16) T7 = 4 * i
+(17) T8 = 4 * j
+(18) T9 = a[T8]
+(19) a[T7] = T9
+(20) T10 = 4 * j
+(21) a[T10] = x
+(22) goto (5)
+(23) T11 = 4 * i           // Leader 4: Target of jump statement line 13 
+(24) x = a[T11]
+(25) T12 = 4 * i
+(26) T13 = 4 * n
+(27) T14 = a[T13]
+(28) a[T12] = T14
+(29) T15 = 4 * n
+(30) a[T15] = x
+
+There are 6 basic blocks 
+Block 1: statement line 1-4
+Block 2: statement line 5-8
+Block 3: statement line 9-12
+Block 4: statement line 13
+Block 5: statement line 14-22
+Block 6: statement line 23-30

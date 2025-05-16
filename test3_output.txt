@@ -1,0 +1,117 @@
+
+===============================================================================================================
+===============================================================================================================
+
+=== Test Case: test3.txt ===
+
+Control Flow Graph:
+Basic Block 1: [(1, 'i = m - 1'), (2, 'j = n'), (3, 'T1 = 4 * n'), (4, 'v = a[T1]')]
+  Successors: ['Basic Block 2']
+Basic Block 2: [(5, 'i = i + 1'), (6, 'T2 = 4 * i'), (7, 'T3 = a[T2]'), (8, 'if T3 < v goto (5)')]
+  Successors: ['Basic Block 2', 'Basic Block 3']
+Basic Block 3: [(9, 'j = j - 1'), (10, 'T4 = 4 * j'), (11, 'T5 = a[T4]'), (12, 'if T5 > v goto (9)')]
+  Successors: ['Basic Block 3', 'Basic Block 4']
+Basic Block 4: [(13, 'if i >= j goto (23)')]
+  Successors: ['Basic Block 6', 'Basic Block 5']
+Basic Block 5: [(14, 'T6 = 4 * i'), (15, 'x = a[T6]'), (16, 'T7 = 4 * i'), (17, 'T8 = 4 * j'), (18, 'T9 = a[T8]'), (19, 'a[T7] = T9'), (20, 'T10 = 4 * j'), (21, 'a[T10] = x'), (22, 'goto (5)')]
+  Successors: ['Basic Block 2']
+Basic Block 6: [(23, 'T11 = 4 * i'), (24, 'x = a[T11]'), (25, 'T12 = 4 * i'), (26, 'T13 = 4 * n'), (27, 'T14 = a[T13]'), (28, 'a[T12] = T14'), (29, 'T15 = 4 * n'), (30, 'a[T15] = x')]
+  Successors: []
+
+Definitions:
+d1: i at line 1 (i = m - 1)
+d2: j at line 2 (j = n)
+d3: T1 at line 3 (T1 = 4 * n)
+d4: v at line 4 (v = a[T1])
+d5: i at line 5 (i = i + 1)
+d6: T2 at line 6 (T2 = 4 * i)
+d7: T3 at line 7 (T3 = a[T2])
+d8: j at line 9 (j = j - 1)
+d9: T4 at line 10 (T4 = 4 * j)
+d10: T5 at line 11 (T5 = a[T4])
+d11: T6 at line 14 (T6 = 4 * i)
+d12: x at line 15 (x = a[T6])
+d13: T7 at line 16 (T7 = 4 * i)
+d14: T8 at line 17 (T8 = 4 * j)
+d15: T9 at line 18 (T9 = a[T8])
+d16: x[T7] at line 19 (a[T7] = T9)
+d17: T10 at line 20 (T10 = 4 * j)
+d18: x[T10] at line 21 (a[T10] = x)
+d19: T11 at line 23 (T11 = 4 * i)
+d20: x at line 24 (x = a[T11])
+d21: T12 at line 25 (T12 = 4 * i)
+d22: T13 at line 26 (T13 = 4 * n)
+d23: T14 at line 27 (T14 = a[T13])
+d24: x[T12] at line 28 (a[T12] = T14)
+d25: T15 at line 29 (T15 = 4 * n)
+d26: x[T15] at line 30 (a[T15] = x)
+
+Forward Flow Analysis:
+
+Iteration 1:
+Basic Block 1: IN = {}, OUT = {d1, d2, d3, d4}
+Basic Block 2: IN = {d1, d11, d12, d13, d14, d15, d16, d17, d18, d2, d3, d4, d5, d6, d7}, OUT = {d11, d12, d13, d14, d15, d16, d17, d18, d2, d3, d4, d5, d6, d7}
+Basic Block 3: IN = {d10, d11, d12, d13, d14, d15, d16, d17, d18, d2, d3, d4, d5, d6, d7, d8, d9}, OUT = {d10, d11, d12, d13, d14, d15, d16, d17, d18, d3, d4, d5, d6, d7, d8, d9}
+Basic Block 4: IN = {d10, d11, d12, d13, d14, d15, d16, d17, d18, d3, d4, d5, d6, d7, d8, d9}, OUT = {d10, d11, d12, d13, d14, d15, d16, d17, d18, d3, d4, d5, d6, d7, d8, d9}
+Basic Block 5: IN = {d10, d11, d12, d13, d14, d15, d16, d17, d18, d3, d4, d5, d6, d7, d8, d9}, OUT = {d10, d11, d12, d13, d14, d15, d16, d17, d18, d3, d4, d5, d6, d7, d8, d9}
+Basic Block 6: IN = {d10, d11, d12, d13, d14, d15, d16, d17, d18, d3, d4, d5, d6, d7, d8, d9}, OUT = {d10, d11, d13, d14, d15, d16, d17, d18, d19, d20, d21, d22, d23, d24, d25, d26, d3, d4, d5, d6, d7, d8, d9}
+
+Iteration 2:
+Basic Block 1: IN = {}, OUT = {d1, d2, d3, d4}
+Basic Block 2: IN = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d2, d3, d4, d5, d6, d7, d8, d9}, OUT = {d10, d11, d12, d13, d14, d15, d16, d17, d18, d2, d3, d4, d5, d6, d7, d8, d9}
+Basic Block 3: IN = {d10, d11, d12, d13, d14, d15, d16, d17, d18, d2, d3, d4, d5, d6, d7, d8, d9}, OUT = {d10, d11, d12, d13, d14, d15, d16, d17, d18, d3, d4, d5, d6, d7, d8, d9}
+Basic Block 4: IN = {d10, d11, d12, d13, d14, d15, d16, d17, d18, d3, d4, d5, d6, d7, d8, d9}, OUT = {d10, d11, d12, d13, d14, d15, d16, d17, d18, d3, d4, d5, d6, d7, d8, d9}
+Basic Block 5: IN = {d10, d11, d12, d13, d14, d15, d16, d17, d18, d3, d4, d5, d6, d7, d8, d9}, OUT = {d10, d11, d12, d13, d14, d15, d16, d17, d18, d3, d4, d5, d6, d7, d8, d9}
+Basic Block 6: IN = {d10, d11, d12, d13, d14, d15, d16, d17, d18, d3, d4, d5, d6, d7, d8, d9}, OUT = {d10, d11, d13, d14, d15, d16, d17, d18, d19, d20, d21, d22, d23, d24, d25, d26, d3, d4, d5, d6, d7, d8, d9}
+
+Iteration 3:
+Basic Block 1: IN = {}, OUT = {d1, d2, d3, d4}
+Basic Block 2: IN = {d1, d10, d11, d12, d13, d14, d15, d16, d17, d18, d2, d3, d4, d5, d6, d7, d8, d9}, OUT = {d10, d11, d12, d13, d14, d15, d16, d17, d18, d2, d3, d4, d5, d6, d7, d8, d9}
+Basic Block 3: IN = {d10, d11, d12, d13, d14, d15, d16, d17, d18, d2, d3, d4, d5, d6, d7, d8, d9}, OUT = {d10, d11, d12, d13, d14, d15, d16, d17, d18, d3, d4, d5, d6, d7, d8, d9}
+Basic Block 4: IN = {d10, d11, d12, d13, d14, d15, d16, d17, d18, d3, d4, d5, d6, d7, d8, d9}, OUT = {d10, d11, d12, d13, d14, d15, d16, d17, d18, d3, d4, d5, d6, d7, d8, d9}
+Basic Block 5: IN = {d10, d11, d12, d13, d14, d15, d16, d17, d18, d3, d4, d5, d6, d7, d8, d9}, OUT = {d10, d11, d12, d13, d14, d15, d16, d17, d18, d3, d4, d5, d6, d7, d8, d9}
+Basic Block 6: IN = {d10, d11, d12, d13, d14, d15, d16, d17, d18, d3, d4, d5, d6, d7, d8, d9}, OUT = {d10, d11, d13, d14, d15, d16, d17, d18, d19, d20, d21, d22, d23, d24, d25, d26, d3, d4, d5, d6, d7, d8, d9}
+Convergence reached after 3 iterations.
+
+Backward Flow Analysis:
+
+Iteration 1:
+Basic Block 1: IN = {(5), T1, T2, T3, goto, m, n}, OUT = {(5), T2, T3, goto, i, v}
+Basic Block 2: IN = {(5), (9), T2, T3, T4, T5, goto, i, j, v}, OUT = {(5), (9), T2, T3, T4, T5, goto, i, j, v}
+Basic Block 3: IN = {(23), (9), T4, T5, goto, i, j, v}, OUT = {(23), (9), T4, T5, goto, i, j, v}
+Basic Block 4: IN = {(23), T11, T13, T14, T6, T8, T9, goto, i, j, n, x}, OUT = {T11, T13, T14, T6, T8, T9, i, j, n, x}
+Basic Block 5: IN = {(5), (9), T2, T3, T4, T5, T6, T8, T9, goto, i, j, v, x}, OUT = {(5), (9), T2, T3, T4, T5, goto, i, j, v}
+Basic Block 6: IN = {T11, T13, T14, i, n, x}, OUT = {}
+
+Iteration 2:
+Basic Block 1: IN = {(5), (9), T1, T2, T3, T4, T5, goto, m, n}, OUT = {(5), (9), T2, T3, T4, T5, goto, i, j, v}
+Basic Block 2: IN = {(23), (5), (9), T2, T3, T4, T5, goto, i, j, v}, OUT = {(23), (5), (9), T2, T3, T4, T5, goto, i, j, v}
+Basic Block 3: IN = {(23), (9), T11, T13, T14, T4, T5, T6, T8, T9, goto, i, j, n, v, x}, OUT = {(23), (9), T11, T13, T14, T4, T5, T6, T8, T9, goto, i, j, n, v, x}
+Basic Block 4: IN = {(23), (5), (9), T11, T13, T14, T2, T3, T4, T5, T6, T8, T9, goto, i, j, n, v, x}, OUT = {(5), (9), T11, T13, T14, T2, T3, T4, T5, T6, T8, T9, goto, i, j, n, v, x}
+Basic Block 5: IN = {(23), (5), (9), T2, T3, T4, T5, T6, T8, T9, goto, i, j, v, x}, OUT = {(23), (5), (9), T2, T3, T4, T5, goto, i, j, v}
+Basic Block 6: IN = {T11, T13, T14, i, n, x}, OUT = {}
+
+Iteration 3:
+Basic Block 1: IN = {(23), (5), (9), T1, T2, T3, T4, T5, goto, m, n}, OUT = {(23), (5), (9), T2, T3, T4, T5, goto, i, j, v}
+Basic Block 2: IN = {(23), (5), (9), T11, T13, T14, T2, T3, T4, T5, T6, T8, T9, goto, i, j, n, v, x}, OUT = {(23), (5), (9), T11, T13, T14, T2, T3, T4, T5, T6, T8, T9, goto, i, j, n, v, x}
+Basic Block 3: IN = {(23), (5), (9), T11, T13, T14, T2, T3, T4, T5, T6, T8, T9, goto, i, j, n, v, x}, OUT = {(23), (5), (9), T11, T13, T14, T2, T3, T4, T5, T6, T8, T9, goto, i, j, n, v, x}
+Basic Block 4: IN = {(23), (5), (9), T11, T13, T14, T2, T3, T4, T5, T6, T8, T9, goto, i, j, n, v, x}, OUT = {(23), (5), (9), T11, T13, T14, T2, T3, T4, T5, T6, T8, T9, goto, i, j, n, v, x}
+Basic Block 5: IN = {(23), (5), (9), T11, T13, T14, T2, T3, T4, T5, T6, T8, T9, goto, i, j, n, v, x}, OUT = {(23), (5), (9), T11, T13, T14, T2, T3, T4, T5, T6, T8, T9, goto, i, j, n, v, x}
+Basic Block 6: IN = {T11, T13, T14, i, n, x}, OUT = {}
+
+Iteration 4:
+Basic Block 1: IN = {(23), (5), (9), T1, T11, T13, T14, T2, T3, T4, T5, T6, T8, T9, goto, m, n, x}, OUT = {(23), (5), (9), T11, T13, T14, T2, T3, T4, T5, T6, T8, T9, goto, i, j, n, v, x}
+Basic Block 2: IN = {(23), (5), (9), T11, T13, T14, T2, T3, T4, T5, T6, T8, T9, goto, i, j, n, v, x}, OUT = {(23), (5), (9), T11, T13, T14, T2, T3, T4, T5, T6, T8, T9, goto, i, j, n, v, x}
+Basic Block 3: IN = {(23), (5), (9), T11, T13, T14, T2, T3, T4, T5, T6, T8, T9, goto, i, j, n, v, x}, OUT = {(23), (5), (9), T11, T13, T14, T2, T3, T4, T5, T6, T8, T9, goto, i, j, n, v, x}
+Basic Block 4: IN = {(23), (5), (9), T11, T13, T14, T2, T3, T4, T5, T6, T8, T9, goto, i, j, n, v, x}, OUT = {(23), (5), (9), T11, T13, T14, T2, T3, T4, T5, T6, T8, T9, goto, i, j, n, v, x}
+Basic Block 5: IN = {(23), (5), (9), T11, T13, T14, T2, T3, T4, T5, T6, T8, T9, goto, i, j, n, v, x}, OUT = {(23), (5), (9), T11, T13, T14, T2, T3, T4, T5, T6, T8, T9, goto, i, j, n, v, x}
+Basic Block 6: IN = {T11, T13, T14, i, n, x}, OUT = {}
+
+Iteration 5:
+Basic Block 1: IN = {(23), (5), (9), T1, T11, T13, T14, T2, T3, T4, T5, T6, T8, T9, goto, m, n, x}, OUT = {(23), (5), (9), T11, T13, T14, T2, T3, T4, T5, T6, T8, T9, goto, i, j, n, v, x}
+Basic Block 2: IN = {(23), (5), (9), T11, T13, T14, T2, T3, T4, T5, T6, T8, T9, goto, i, j, n, v, x}, OUT = {(23), (5), (9), T11, T13, T14, T2, T3, T4, T5, T6, T8, T9, goto, i, j, n, v, x}
+Basic Block 3: IN = {(23), (5), (9), T11, T13, T14, T2, T3, T4, T5, T6, T8, T9, goto, i, j, n, v, x}, OUT = {(23), (5), (9), T11, T13, T14, T2, T3, T4, T5, T6, T8, T9, goto, i, j, n, v, x}
+Basic Block 4: IN = {(23), (5), (9), T11, T13, T14, T2, T3, T4, T5, T6, T8, T9, goto, i, j, n, v, x}, OUT = {(23), (5), (9), T11, T13, T14, T2, T3, T4, T5, T6, T8, T9, goto, i, j, n, v, x}
+Basic Block 5: IN = {(23), (5), (9), T11, T13, T14, T2, T3, T4, T5, T6, T8, T9, goto, i, j, n, v, x}, OUT = {(23), (5), (9), T11, T13, T14, T2, T3, T4, T5, T6, T8, T9, goto, i, j, n, v, x}
+Basic Block 6: IN = {T11, T13, T14, i, n, x}, OUT = {}
+Convergence reached after 5 iterations.

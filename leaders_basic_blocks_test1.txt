@@ -1,0 +1,46 @@
+(1) i = n                       // Leader 1: (First statement)
+(2) if i < 2 then goto (32)     // Leader 4: Target of jump statement line 31     
+(3) jmax = 1                    // Leader 5: following of jump
+(4) j = 2
+(5) if j > 1 then goto (16)     // Leader 11: Target of jump statement line 15
+(6) T1 = j - 1                  // Leader 6: following jump 
+(7) T2 = T1 * 4
+(8) T3 = x[T2]
+(9) T4 = jmax - 1
+(10) T5 = T4 * 4                
+(11) T6 = x[T5]
+(12) if T3 <= T6 then goto (14)
+(13) jmax = j                   // Leader 7: following jump 
+(14) j = j + 1                  // Leader 9: Target of jump statement line 12
+(15) goto (5)
+(16) if jmax = i then goto (30) // Leader 3: Target of jump statement line 5
+(17) T7 = i - 1                 // Leader 8: following jump
+(18) T8 = T7 * 4
+(19) T9 = x[T8]
+(20) temp = T9
+(21) T10 = jmax - 1
+(22) T11 = T10 * 4
+(23) T12 = x[T11]
+(24) T13 = i - 1
+(25) T14 = T13 * 4
+(26) x[T14] = T12
+(27) T15 = jmax - 1
+(28) T16 = T15 * 4
+(29) x[T16] = temp
+(30) i = i - 1                  // Leader 10: Target of jump statement line 16
+(31) goto (2)
+(32) return                     // Leader 2: Target of jump statement line 2
+
+There are 10 basic blocks 
+
+Block 1: statement line 1
+Block 2: statement line 2
+Block 3: statement line 3-4
+Block 4: statement line 5
+Block 5: statement line 6-12
+Block 6: statement line 13
+Block 7: statement line 14-15
+Block 8: statement line 16
+Block 9: statement line 17-29
+Block 10: statement line 30-31
+Block 11: statement line 32

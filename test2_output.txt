@@ -1,0 +1,113 @@
+
+===============================================================================================================
+===============================================================================================================
+
+=== Test Case: test2.txt ===
+
+Control Flow Graph:
+Basic Block 1: [(1, 'i = 1')]
+  Successors: ['Basic Block 2']
+Basic Block 2: [(2, 'j = 1')]
+  Successors: ['Basic Block 3']
+Basic Block 3: [(3, 'T1 = 10 * i'), (4, 'T2 = T1 + j'), (5, 'T3 = 8 * T2'), (6, 'T4 = T3 - 88'), (7, 'a[T4] = 0.0'), (8, 'j = j + 1'), (9, 'if j <= 10 goto (3)')]
+  Successors: ['Basic Block 3', 'Basic Block 4']
+Basic Block 4: [(10, 'i = i + 1'), (11, 'if i <= 10 goto (2)')]
+  Successors: ['Basic Block 2', 'Basic Block 5']
+Basic Block 5: [(12, 'i = 1')]
+  Successors: ['Basic Block 6']
+Basic Block 6: [(13, 'T5 = i - 1'), (14, 'T6 = 88 * T5'), (15, 'a[T6] = 1.0'), (16, 'i = i + 1'), (17, 'if i <= 10 goto (13)')]
+  Successors: ['Basic Block 6']
+
+Definitions:
+d1: i at line 1 (i = 1)
+d2: j at line 2 (j = 1)
+d3: T1 at line 3 (T1 = 10 * i)
+d4: T2 at line 4 (T2 = T1 + j)
+d5: T3 at line 5 (T3 = 8 * T2)
+d6: T4 at line 6 (T4 = T3 - 88)
+d7: x[T4] at line 7 (a[T4] = 0.0)
+d8: j at line 8 (j = j + 1)
+d9: i at line 10 (i = i + 1)
+d10: i at line 12 (i = 1)
+d11: T5 at line 13 (T5 = i - 1)
+d12: T6 at line 14 (T6 = 88 * T5)
+d13: x[T6] at line 15 (a[T6] = 1.0)
+d14: i at line 16 (i = i + 1)
+
+Forward Flow Analysis:
+
+Iteration 1:
+Basic Block 1: IN = {}, OUT = {d1}
+Basic Block 2: IN = {d1, d9}, OUT = {d1, d2, d9}
+Basic Block 3: IN = {d1, d2, d3, d4, d5, d6, d7, d8, d9}, OUT = {d1, d3, d4, d5, d6, d7, d8, d9}
+Basic Block 4: IN = {d1, d3, d4, d5, d6, d7, d8, d9}, OUT = {d3, d4, d5, d6, d7, d8, d9}
+Basic Block 5: IN = {d3, d4, d5, d6, d7, d8, d9}, OUT = {d10, d3, d4, d5, d6, d7, d8}
+Basic Block 6: IN = {d10, d11, d12, d13, d14, d3, d4, d5, d6, d7, d8}, OUT = {d11, d12, d13, d14, d3, d4, d5, d6, d7, d8}
+
+Iteration 2:
+Basic Block 1: IN = {}, OUT = {d1}
+Basic Block 2: IN = {d1, d3, d4, d5, d6, d7, d8, d9}, OUT = {d1, d2, d3, d4, d5, d6, d7, d9}
+Basic Block 3: IN = {d1, d2, d3, d4, d5, d6, d7, d8, d9}, OUT = {d1, d3, d4, d5, d6, d7, d8, d9}
+Basic Block 4: IN = {d1, d3, d4, d5, d6, d7, d8, d9}, OUT = {d3, d4, d5, d6, d7, d8, d9}
+Basic Block 5: IN = {d3, d4, d5, d6, d7, d8, d9}, OUT = {d10, d3, d4, d5, d6, d7, d8}
+Basic Block 6: IN = {d10, d11, d12, d13, d14, d3, d4, d5, d6, d7, d8}, OUT = {d11, d12, d13, d14, d3, d4, d5, d6, d7, d8}
+
+Iteration 3:
+Basic Block 1: IN = {}, OUT = {d1}
+Basic Block 2: IN = {d1, d3, d4, d5, d6, d7, d8, d9}, OUT = {d1, d2, d3, d4, d5, d6, d7, d9}
+Basic Block 3: IN = {d1, d2, d3, d4, d5, d6, d7, d8, d9}, OUT = {d1, d3, d4, d5, d6, d7, d8, d9}
+Basic Block 4: IN = {d1, d3, d4, d5, d6, d7, d8, d9}, OUT = {d3, d4, d5, d6, d7, d8, d9}
+Basic Block 5: IN = {d3, d4, d5, d6, d7, d8, d9}, OUT = {d10, d3, d4, d5, d6, d7, d8}
+Basic Block 6: IN = {d10, d11, d12, d13, d14, d3, d4, d5, d6, d7, d8}, OUT = {d11, d12, d13, d14, d3, d4, d5, d6, d7, d8}
+Convergence reached after 3 iterations.
+
+Backward Flow Analysis:
+
+Iteration 1:
+Basic Block 1: IN = {}, OUT = {}
+Basic Block 2: IN = {(3), T1, T2, T3, goto, i}, OUT = {(3), T1, T2, T3, goto, i, j}
+Basic Block 3: IN = {(2), (3), T1, T2, T3, goto, i, j}, OUT = {(2), (3), T1, T2, T3, goto, i, j}
+Basic Block 4: IN = {(2), (3), T1, T2, T3, goto, i}, OUT = {(3), T1, T2, T3, goto, i}
+Basic Block 5: IN = {(13), T5, goto}, OUT = {(13), T5, goto, i}
+Basic Block 6: IN = {(13), T5, goto, i}, OUT = {(13), T5, goto, i}
+
+Iteration 2:
+Basic Block 1: IN = {(3), T1, T2, T3, goto}, OUT = {(3), T1, T2, T3, goto, i}
+Basic Block 2: IN = {(2), (3), T1, T2, T3, goto, i}, OUT = {(2), (3), T1, T2, T3, goto, i, j}
+Basic Block 3: IN = {(2), (3), T1, T2, T3, goto, i, j}, OUT = {(2), (3), T1, T2, T3, goto, i, j}
+Basic Block 4: IN = {(13), (2), (3), T1, T2, T3, T5, goto, i}, OUT = {(13), (2), (3), T1, T2, T3, T5, goto, i}
+Basic Block 5: IN = {(13), T5, goto}, OUT = {(13), T5, goto, i}
+Basic Block 6: IN = {(13), T5, goto, i}, OUT = {(13), T5, goto, i}
+
+Iteration 3:
+Basic Block 1: IN = {(2), (3), T1, T2, T3, goto}, OUT = {(2), (3), T1, T2, T3, goto, i}
+Basic Block 2: IN = {(2), (3), T1, T2, T3, goto, i}, OUT = {(2), (3), T1, T2, T3, goto, i, j}
+Basic Block 3: IN = {(13), (2), (3), T1, T2, T3, T5, goto, i, j}, OUT = {(13), (2), (3), T1, T2, T3, T5, goto, i, j}
+Basic Block 4: IN = {(13), (2), (3), T1, T2, T3, T5, goto, i}, OUT = {(13), (2), (3), T1, T2, T3, T5, goto, i}
+Basic Block 5: IN = {(13), T5, goto}, OUT = {(13), T5, goto, i}
+Basic Block 6: IN = {(13), T5, goto, i}, OUT = {(13), T5, goto, i}
+
+Iteration 4:
+Basic Block 1: IN = {(2), (3), T1, T2, T3, goto}, OUT = {(2), (3), T1, T2, T3, goto, i}
+Basic Block 2: IN = {(13), (2), (3), T1, T2, T3, T5, goto, i}, OUT = {(13), (2), (3), T1, T2, T3, T5, goto, i, j}
+Basic Block 3: IN = {(13), (2), (3), T1, T2, T3, T5, goto, i, j}, OUT = {(13), (2), (3), T1, T2, T3, T5, goto, i, j}
+Basic Block 4: IN = {(13), (2), (3), T1, T2, T3, T5, goto, i}, OUT = {(13), (2), (3), T1, T2, T3, T5, goto, i}
+Basic Block 5: IN = {(13), T5, goto}, OUT = {(13), T5, goto, i}
+Basic Block 6: IN = {(13), T5, goto, i}, OUT = {(13), T5, goto, i}
+
+Iteration 5:
+Basic Block 1: IN = {(13), (2), (3), T1, T2, T3, T5, goto}, OUT = {(13), (2), (3), T1, T2, T3, T5, goto, i}
+Basic Block 2: IN = {(13), (2), (3), T1, T2, T3, T5, goto, i}, OUT = {(13), (2), (3), T1, T2, T3, T5, goto, i, j}
+Basic Block 3: IN = {(13), (2), (3), T1, T2, T3, T5, goto, i, j}, OUT = {(13), (2), (3), T1, T2, T3, T5, goto, i, j}
+Basic Block 4: IN = {(13), (2), (3), T1, T2, T3, T5, goto, i}, OUT = {(13), (2), (3), T1, T2, T3, T5, goto, i}
+Basic Block 5: IN = {(13), T5, goto}, OUT = {(13), T5, goto, i}
+Basic Block 6: IN = {(13), T5, goto, i}, OUT = {(13), T5, goto, i}
+
+Iteration 6:
+Basic Block 1: IN = {(13), (2), (3), T1, T2, T3, T5, goto}, OUT = {(13), (2), (3), T1, T2, T3, T5, goto, i}
+Basic Block 2: IN = {(13), (2), (3), T1, T2, T3, T5, goto, i}, OUT = {(13), (2), (3), T1, T2, T3, T5, goto, i, j}
+Basic Block 3: IN = {(13), (2), (3), T1, T2, T3, T5, goto, i, j}, OUT = {(13), (2), (3), T1, T2, T3, T5, goto, i, j}
+Basic Block 4: IN = {(13), (2), (3), T1, T2, T3, T5, goto, i}, OUT = {(13), (2), (3), T1, T2, T3, T5, goto, i}
+Basic Block 5: IN = {(13), T5, goto}, OUT = {(13), T5, goto, i}
+Basic Block 6: IN = {(13), T5, goto, i}, OUT = {(13), T5, goto, i}
+Convergence reached after 6 iterations.
